@@ -1,0 +1,32 @@
+{
+  "expo": {
+    "name": "São João Arcoverde",
+    "slug": "sao-joao-arcoverde",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "newArchEnabled": true,
+    "splash": {
+      "resizeMode": "contain",
+      "backgroundColor": "#000000"
+    },
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.saojoao.arcoverde"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#000000"
+      },
+      "package": "com.saojoao.arcoverde"
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "single",
+      "backgroundColor": "#111827"
+    },
+    "plugins": [
+      "expo-font"
+    ]
+  }
+}
