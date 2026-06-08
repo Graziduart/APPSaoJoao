@@ -2,12 +2,12 @@ import { ReactNode } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { colors, spacing } from '../theme/colors';
+import { FestiveHeaderDecor } from './FestiveHeaderDecor';
+import { colors, junina, spacing } from '../theme/colors';
 
 interface ScreenHeaderProps {
   title: string;
   subtitle?: string;
-  colors: [string, string];
   icon?: ReactNode;
   children?: ReactNode;
 }
@@ -15,7 +15,6 @@ interface ScreenHeaderProps {
 export function ScreenHeader({
   title,
   subtitle,
-  colors: gradientColors,
   icon,
   children,
 }: ScreenHeaderProps) {
@@ -23,9 +22,10 @@ export function ScreenHeader({
 
   return (
     <LinearGradient
-      colors={gradientColors}
+      colors={junina.gradient}
       style={[styles.header, { paddingTop: insets.top + 12 }]}
     >
+      <FestiveHeaderDecor />
       <View style={styles.titleRow}>
         {icon}
         <Text style={styles.title}>{title}</Text>

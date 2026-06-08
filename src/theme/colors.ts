@@ -26,3 +26,38 @@ export const spacing = {
   screen: 16,
   tabBar: 72,
 };
+
+/** Paleta dos módulos (mockup festa junina) */
+export const modulo = {
+  bg: '#140c08',
+  bgGradient: ['#2a1810', '#140c08'] as [string, string],
+  surface: '#23150d',
+  surfaceLight: '#2f1c12',
+  accent: '#f5a623',
+  accentSolid: '#ea580c',
+  cream: '#fde68a',
+  textMuted: 'rgba(255,255,255,0.7)',
+  chipInactiveBg: '#1f1209',
+  chipBorder: 'rgba(251, 146, 60, 0.55)',
+  searchBg: '#1a0f09',
+  searchBorder: 'rgba(251, 146, 60, 0.5)',
+  cardBg: '#23150d',
+  cardBorder: 'rgba(251, 191, 36, 0.35)',
+  star: 'rgba(255,255,255,0.3)',
+};
+
+/** @deprecated use modulo */
+export const programacao = modulo;
+
+/** Paleta única — festa junina */
+export const junina = {
+  red: '#b91c1c',
+  orange: '#ea580c',
+  yellow: '#fbbf24',
+  cream: '#f3ead8',
+  gradient: ['#b91c1c', '#ea580c'] as [string, string],
+  cardBg: 'rgba(185, 28, 28, 0.14)',
+  cardBorder: 'rgba(251, 191, 36, 0.35)',
+  icon: '#fbbf24',
+  text: '#fde68a',
+};

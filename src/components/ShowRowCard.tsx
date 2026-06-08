@@ -3,7 +3,7 @@ import { Feather } from '@expo/vector-icons';
 import { Show } from '../data/events';
 import { Card } from './Card';
 import { Badge } from './Badge';
-import { colors, spacing } from '../theme/colors';
+import { colors } from '../theme/colors';
 import { formatShortDate } from '../utils/helpers';
 
 interface ShowRowCardProps {

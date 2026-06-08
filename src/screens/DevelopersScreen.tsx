@@ -11,9 +11,10 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Screen } from '../components/Screen';
 import { Card } from '../components/Card';
-import { appInfo, developers } from '../data/content';
+import { appInfo, developers, facultyInfo, professorOrientador } from '../data/content';
 import { colors, spacing } from '../theme/colors';
 import type { RootStackParamList } from '../navigation/types';
+import { getImageSource } from '../utils/helpers';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Developers'>;
 
@@ -31,24 +32,21 @@ function DeveloperCard({
 }: {
   name: string;
   role: string;
-  avatar?: string;
+  avatar?: string | number;
   links: SocialLink[];
 }) {
   return (
     <Card style={styles.devCard}>
-      <View style={styles.devHeader}>
-        {avatar ? (
-          <Image source={{ uri: avatar }} style={styles.avatar} />
-        ) : (
-          <View style={styles.avatarPlaceholder}>
-            <Feather name="user" size={28} color={colors.gray400} />
-          </View>
-        )}
-        <View style={styles.devInfo}>
-          <Text style={styles.devName}>{name}</Text>
-          <Text style={styles.devRole}>{role}</Text>
+      {avatar ? (
+        <Image source={getImageSource(avatar)} style={styles.photo} resizeMode="cover" />
+      ) : (
+        <View style={styles.photoPlaceholder}>
+          <Feather name="user" size={40} color={colors.gray400} />
         </View>
-      </View>
+      )}
+      <Text style={styles.devName}>{name}</Text>
+      <Text style={styles.devRole}>{role}</Text>
+
       {links.length > 0 ? (
         <View style={styles.links}>
           {links.map((link) => (
@@ -88,53 +86,52 @@ export function DevelopersScreen({ navigation }: Props) {
           <Text style={styles.appDesc}>{appInfo.description}</Text>
         </Card>
 
-        <Text style={styles.sectionLabel}>Equipe</Text>
+        <Text style={styles.sectionLabel}>Desenvolvedoras</Text>
 
-        {developers.length === 0 ? (
-          <Card style={styles.placeholder}>
-            <Feather name="code" size={40} color={colors.gray500} />
-            <Text style={styles.placeholderTitle}>Equipe em breve</Text>
-            <Text style={styles.placeholderBody}>
-              A equipe responsável pelo aplicativo será divulgada em breve.
-            </Text>
-          </Card>
-        ) : (
-          developers.map((dev) => {
-            const links: SocialLink[] = [];
-            if (dev.github)
-              links.push({ icon: 'github', label: 'GitHub', url: dev.github });
-            if (dev.linkedin)
-              links.push({
-                icon: 'link',
-                label: 'LinkedIn',
-                url: dev.linkedin,
-              });
-            if (dev.instagram)
-              links.push({
-                icon: 'instagram',
-                label: 'Instagram',
-                url: dev.instagram,
-              });
-            if (dev.email)
-              links.push({
-                icon: 'mail',
-                label: 'E-mail',
-                url: `mailto:${dev.email}`,
-              });
-            if (dev.website)
-              links.push({ icon: 'globe', label: 'Site', url: dev.website });
+        {developers.map((dev) => {
+          const links: SocialLink[] = [];
+          if (dev.github)
+            links.push({ icon: 'github', label: 'GitHub', url: dev.github });
+          if (dev.linkedin)
+            links.push({ icon: 'link', label: 'LinkedIn', url: dev.linkedin });
+          if (dev.instagram)
+            links.push({ icon: 'instagram', label: 'Instagram', url: dev.instagram });
+          if (dev.email)
+            links.push({
+              icon: 'mail',
+              label: 'E-mail',
+              url: `mailto:${dev.email}`,
+            });
+          if (dev.website)
+            links.push({ icon: 'globe', label: 'Site', url: dev.website });
 
-            return (
-              <DeveloperCard
-                key={dev.id}
-                name={dev.name}
-                role={dev.role}
-                avatar={dev.avatar}
-                links={links}
-              />
-            );
-          })
-        )}
+          return (
+            <DeveloperCard
+              key={dev.id}
+              name={dev.name}
+              role={dev.role}
+              avatar={dev.avatar}
+              links={links}
+            />
+          );
+        })}
+
+        <Card style={styles.orientadorCard}>
+          <Text style={styles.orientadorLabel}>{professorOrientador.label}</Text>
+          <Text style={styles.orientadorName}>{professorOrientador.name}</Text>
+        </Card>
+
+        <Card style={styles.facultyCard}>
+          <Text style={styles.facultyTitle}>Instituição de Ensino</Text>
+          <Text style={styles.facultyText}>{facultyInfo.description}</Text>
+          <Text style={styles.facultyInstitution}>{facultyInfo.institution}</Text>
+          <Text style={styles.facultyCourse}>Curso: {facultyInfo.course}</Text>
+          <Image
+            source={getImageSource(facultyInfo.logo)}
+            style={styles.facultyLogo}
+            resizeMode="contain"
+          />
+        </Card>
       </Screen>
     </View>
   );
@@ -197,58 +194,41 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '700',
   },
-  placeholder: {
-    alignItems: 'center',
-    padding: 28,
-    gap: 12,
-  },
-  placeholderTitle: {
-    color: colors.white,
-    fontSize: 17,
-    fontWeight: '700',
-  },
-  placeholderBody: {
-    color: colors.gray400,
-    fontSize: 14,
-    lineHeight: 22,
-    textAlign: 'center',
-  },
   devCard: {
     padding: 16,
-    gap: 12,
-  },
-  devHeader: {
-    flexDirection: 'row',
-    gap: 14,
+    gap: 10,
     alignItems: 'center',
   },
-  avatar: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
+  photo: {
+    width: '100%',
+    height: 280,
+    borderRadius: 16,
   },
-  avatarPlaceholder: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
+  photoPlaceholder: {
+    width: '100%',
+    height: 280,
+    borderRadius: 16,
     backgroundColor: 'rgba(255,255,255,0.1)',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  devInfo: { flex: 1, gap: 4 },
   devName: {
     color: colors.white,
-    fontSize: 17,
-    fontWeight: '700',
+    fontSize: 20,
+    fontWeight: '800',
+    textAlign: 'center',
   },
   devRole: {
     color: colors.gray400,
     fontSize: 14,
+    textAlign: 'center',
   },
   links: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: 8,
+    justifyContent: 'center',
+    marginTop: 4,
   },
   linkBtn: {
     flexDirection: 'row',
@@ -265,5 +245,62 @@ const styles = StyleSheet.create({
     color: colors.gray300,
     fontSize: 13,
     fontWeight: '500',
+  },
+  orientadorCard: {
+    alignItems: 'center',
+    padding: 20,
+    gap: 6,
+    marginTop: 4,
+  },
+  orientadorLabel: {
+    color: colors.yellow400,
+    fontSize: 13,
+    fontWeight: '700',
+    letterSpacing: 0.5,
+    textTransform: 'uppercase',
+    textAlign: 'center',
+  },
+  orientadorName: {
+    color: colors.white,
+    fontSize: 20,
+    fontWeight: '800',
+    textAlign: 'center',
+  },
+  facultyCard: {
+    alignItems: 'center',
+    padding: 20,
+    gap: 10,
+    marginTop: 4,
+    marginBottom: 8,
+  },
+  facultyTitle: {
+    color: colors.yellow400,
+    fontSize: 13,
+    fontWeight: '700',
+    letterSpacing: 0.5,
+    textTransform: 'uppercase',
+    textAlign: 'center',
+  },
+  facultyText: {
+    color: colors.gray300,
+    fontSize: 14,
+    lineHeight: 21,
+    textAlign: 'center',
+  },
+  facultyInstitution: {
+    color: colors.white,
+    fontSize: 15,
+    fontWeight: '700',
+    textAlign: 'center',
+  },
+  facultyCourse: {
+    color: colors.gray400,
+    fontSize: 13,
+    textAlign: 'center',
+  },
+  facultyLogo: {
+    width: '100%',
+    height: 120,
+    marginTop: 8,
   },
 });

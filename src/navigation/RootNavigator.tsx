@@ -167,7 +167,7 @@ export function RootNavigator() {
       linking={linking}
       documentTitle={{
         formatter: (options, route) =>
-          `${options?.title ?? route?.name ?? 'São João'} - Arcoverde`,
+          `${options?.title ?? route?.name ?? 'São João em Arcoverde'}`,
       }}
     >
       <RootStackScreens />
